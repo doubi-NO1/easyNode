@@ -1,0 +1,17 @@
+{
+  "name": "chinaren",
+  "version": "1.0.0",
+  "description": "通用校友录",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "8-shen",
+  "license": "MIT",
+  "dependencies": {
+    "mocha": "^3.5.0",
+    "mongodb": "^2.2.31",
+    "mysql": "^2.14.1",
+    "should": "^13.0.0"
+  }
+}
