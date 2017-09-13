@@ -2,7 +2,7 @@ const Mongo = require('../core/db/dbMongo.js');
 
 
 const config = {
-  dbAddress: 'mongodb://47.94.207.219:27017/test'
+  dbAddress: ''
 };
 
 (async() => {

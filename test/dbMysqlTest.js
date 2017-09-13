@@ -1,7 +1,7 @@
 let Mysql = require('../core/db/dbMysql.js');
 let mysql = new Mysql({
   connectionLimit: 10,
-  host: '47.94.207.219',
+  host: '',
   port: '3306',
   user: 'root',
   password: '7crH5H7KbuHx5YdL',
