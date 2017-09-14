@@ -19,7 +19,7 @@ function writer(req) {
 /**
  * 文件读取类,读取输出静态资源
  * 
- * @param {any} req 
+ * @param {Object} request请求体 
  */
 function reader(req, cb) {
   var rs = fs.createReadStream(path);

@@ -20,10 +20,10 @@ const _defaultConfig = {
 };
 
 /**
- * 构造函数
+ * @description Mongo实例构造器
  * 
- * @param {obj} config 
- * @returns
+ * @param {Object} config 
+ * @returns object
  */
 function Mongo(config) {
   if (!(this instanceof Mongo)) {
@@ -46,11 +46,11 @@ function Mongo(config) {
 
 Mongo.prototype = {
   /**
-   * 查找
+   * @description 查找
    * 
-   * @param {查询条件} options 
-   * @param {是否多条} isOne 
-   * @returns 
+   * @param {Object} options 
+   * @param {Boolean} isOne 
+   * @returns promise
    */
   find(options, isOne) {
     let self = this;
@@ -83,19 +83,19 @@ Mongo.prototype = {
     });
   },
   /**
-   * 查询一条数据
+   * @description 查询一条数据
    * 
-   * @param {选项} options 
-   * @returns 
+   * @param {Object} options 
+   * @returns promise
    */
   findOne(options) {
     return this.find(options, true);
   },
   /**
-   * 新增
+   * @description 新增
    * 
-   * @param {选项} options 
-   * @returns 
+   * @param {Object} options 
+   * @returns promise
    */
   insert(options) {
     let self = this;
@@ -116,10 +116,10 @@ Mongo.prototype = {
     });
   },
   /**
-   * 更新
+   * @description 更新
    * 
-   * @param {any} options 
-   * @returns 
+   * @param {Object} options 
+   * @returns promise
    */
   update(options) {
     let self = this;
@@ -141,6 +141,12 @@ Mongo.prototype = {
       }
     });
   },
+  /**
+   * @description 删除
+   * 
+   * @param {Object} options 
+   * @returns promise
+   */
   remove(options) {
     let self = this;
     return new Promise((resolve, reject) => {

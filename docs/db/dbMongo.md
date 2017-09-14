@@ -9,7 +9,7 @@
 ## Functions
 
 <dl>
-<dt><a href="#Mongo">Mongo(配置项)</a> ⇒</dt>
+<dt><a href="#Mongo">Mongo(config)</a> ⇒</dt>
 <dd><p>Mongo实例构造器</p>
 </dd>
 </dl>
@@ -24,7 +24,7 @@ mongodb封装
 2017/9/10  
 <a name="Mongo"></a>
 
-## Mongo(配置项) ⇒
+## Mongo(config) ⇒
 Mongo实例构造器
 
 **Kind**: global function  
@@ -32,52 +32,52 @@ Mongo实例构造器
 
 | Param | Type |
 | --- | --- |
-| 配置项 | <code>Object</code> | 
+| config | <code>Object</code> | 
 
 
-* [Mongo(配置项)](#Mongo) ⇒
-    * [.find(配置项, 是否多条)](#Mongo+find) ⇒
-    * [.findOne(选项)](#Mongo+findOne) ⇒
-    * [.insert(配置项)](#Mongo+insert) ⇒
+* [Mongo(config)](#Mongo) ⇒
+    * [.find(options, isOne)](#Mongo+find) ⇒
+    * [.findOne(options)](#Mongo+findOne) ⇒
+    * [.insert(options)](#Mongo+insert) ⇒
     * [.update(options)](#Mongo+update) ⇒
     * [.remove(options)](#Mongo+remove) ⇒
 
 <a name="Mongo+find"></a>
 
-### mongo.find(配置项, 是否多条) ⇒
+### mongo.find(options, isOne) ⇒
 查找
 
 **Kind**: instance method of [<code>Mongo</code>](#Mongo)  
-**Returns**: promise对象  
+**Returns**: promise  
 
 | Param | Type |
 | --- | --- |
-| 配置项 | <code>Object</code> | 
-| 是否多条 | <code>Boolean</code> | 
+| options | <code>Object</code> | 
+| isOne | <code>Boolean</code> | 
 
 <a name="Mongo+findOne"></a>
 
-### mongo.findOne(选项) ⇒
+### mongo.findOne(options) ⇒
 查询一条数据
 
 **Kind**: instance method of [<code>Mongo</code>](#Mongo)  
-**Returns**: promise对象  
+**Returns**: promise  
 
 | Param | Type |
 | --- | --- |
-| 选项 | <code>Object</code> | 
+| options | <code>Object</code> | 
 
 <a name="Mongo+insert"></a>
 
-### mongo.insert(配置项) ⇒
+### mongo.insert(options) ⇒
 新增
 
 **Kind**: instance method of [<code>Mongo</code>](#Mongo)  
-**Returns**: promise对象  
+**Returns**: promise  
 
 | Param | Type |
 | --- | --- |
-| 配置项 | <code>Object</code> | 
+| options | <code>Object</code> | 
 
 <a name="Mongo+update"></a>
 
@@ -85,7 +85,7 @@ Mongo实例构造器
 更新
 
 **Kind**: instance method of [<code>Mongo</code>](#Mongo)  
-**Returns**: promise对象  
+**Returns**: promise  
 
 | Param | Type |
 | --- | --- |
@@ -97,7 +97,7 @@ Mongo实例构造器
 删除
 
 **Kind**: instance method of [<code>Mongo</code>](#Mongo)  
-**Returns**: promise对象  
+**Returns**: promise  
 
 | Param | Type |
 | --- | --- |

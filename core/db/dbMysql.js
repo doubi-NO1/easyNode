@@ -10,10 +10,10 @@ const is = require('../utils/is.js');
 //参考资料:https://github.com/mysqljs/mysql
 
 /**
- * 生成 where 条件
+ * @description 生成 where 条件
  * 
- * @param {object} terms 
- * @returns{string} whereText
+ * @param {Object} 查询条件，可以是对象或数组 
+ * @returns{string} 查询条件字符串
  */
 function createWhereText(terms) {
   let whereText = ' where (1=1) and ',
@@ -32,10 +32,10 @@ function createWhereText(terms) {
 }
 
 /**
- * 构造函数，默认导出此函数
+ * @description 构造函数，默认导出此函数
  * 
- * @param {object} config
- * @returns {object} pool 
+ * @param {Object} 配置
+ * @returns {Object} mysql pool 
  */
 function Mysql(config) {
   this.pool = mysql.createPool(config);
@@ -43,10 +43,10 @@ function Mysql(config) {
 
 Mysql.prototype = {
   /**
-   * sql执行器
+   * @description sql执行器
    * 
-   * @param {string} sql 
-   * @param {object} options 
+   * @param {string} sql语句 
+   * @param {Object} 其他mysql配置 
    * @returns 
    */
   query(sql, options) {
@@ -69,10 +69,10 @@ Mysql.prototype = {
   },
 
   /**
-   * 新增
+   * @description 新增
    * 
-   * @param {object} options 
-   * @returns {object} result
+   * @param {Object} 配置 
+   * @returns {Object} 执行结果
    */
   async insert(options) {
     let self = this;
@@ -108,10 +108,10 @@ Mysql.prototype = {
     });
   },
   /**
-   * 更新
+   * @description 更新
    * 
-   * @param {object} options 
-   * @returns {object} result
+   * @param {Object} 配置 
+   * @returns {Object} 执行结果
    */
   async update(options) {
     let self = this;
@@ -132,10 +132,10 @@ Mysql.prototype = {
     });
   },
   /**
-   * 查询
+   * @description 查询
    * 
-   * @param {object} options 
-   * @returns {object} result
+   * @param {Object} 配置 
+   * @returns {Object} 执行结果
    */
   async select(options) {
     let self = this;
@@ -158,10 +158,10 @@ Mysql.prototype = {
     });
   },
   /**
-   * 删除
+   * @description 删除
    * 
-   * @param {object} options 
-   * @returns {object} result
+   * @param {Object} 配置 
+   * @returns {Object} 执行结果
    */
   async remove(options) {
     let self = this,
@@ -184,9 +184,9 @@ Mysql.prototype = {
     });
   },
   /**
-   * 事物构造器
+   * @description 事物构造器
    * 
-   * @returns {object} Transactionn 
+   * @returns {Object} 返回一个事物Transactionn 
    */
   sqlTransaction() {
     let self = this;
@@ -199,10 +199,10 @@ Mysql.prototype = {
 };
 
 /**
- * 真实的事物构造器
+ * @description 真实的事物构造器
  * 
- * @param {object} connection 
- * @returns {object} Transactionn
+ * @param {Object} connection 
+ * @returns {Object} Transactionn
  */
 function Transactionn(conn) {
   if (!(this instanceof Transactionn)) return new Transactionn();
@@ -212,17 +212,17 @@ function Transactionn(conn) {
 
 Transactionn.prototype = {
   /**
-   * 添加一条sql
+   * @description 向事物中添加一条sql
    * 
-   * @param {string} sqlText 
+   * @param {string} sql语句 
    */
   add(sqlText) {
     this.sqlList.push(sqlText);
   },
   /**
-   * 执行事物
+   * @description 执行事物
    * 
-   * @returns {object} result
+   * @returns {Object} 执行结果
    */
   exec() {
     let self = this;
