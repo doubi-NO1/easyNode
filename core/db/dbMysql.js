@@ -74,9 +74,9 @@ Mysql.prototype = {
    * @param {Object} 配置 
    * @returns {Object} 执行结果
    */
-  async insert(options) {
+  insert(options) {
     let self = this;
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       try {
         let data = options.data,
           sqlText = 'insert into ' + options.tbName + ' ',
@@ -107,15 +107,16 @@ Mysql.prototype = {
       }
     });
   },
+
   /**
    * @description 更新
    * 
    * @param {Object} 配置 
    * @returns {Object} 执行结果
    */
-  async update(options) {
+   update(options) {
     let self = this;
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       try {
         let data = options.data,
           sqlText = 'update ' + options.tbName + ' set ',
@@ -137,9 +138,9 @@ Mysql.prototype = {
    * @param {Object} 配置 
    * @returns {Object} 执行结果
    */
-  async select(options) {
+  select(options) {
     let self = this;
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       try {
         let sqlText = 'select ';
         if (is.Array(options.fields) && options.fields.length) {
@@ -163,12 +164,12 @@ Mysql.prototype = {
    * @param {Object} 配置 
    * @returns {Object} 执行结果
    */
-  async remove(options) {
+  remove(options) {
     let self = this,
       sqlText = 'delete from ' + options.tbName;
-    let conn = await self.sqlTransaction();
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       try {
+        let conn = await self.sqlTransaction();
         if (is.Object(options.terms)) {
           sqlText += createWhereText(options.terms);
           conn.add(sqlText);
