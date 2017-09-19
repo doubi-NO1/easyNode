@@ -1,38 +1,41 @@
 let should = require('should');
+let mocha = require('mocha');
 let dbMongo = require('../core/db/dbMongo.js');
 let runtime = require('babel-plugin-transform-runtime');
 let polyfill = require('babel-polyfill');
 
-// function getMongo1(){
-//   return  dbMongo({
-//     dbAddress: "mongodb://47.94.207.219:27017/test"
-//   });
-// };
-// function getMongo2(){
-//   return dbMongo({
-//     dbAddress: "mongodb://47.94.207.219:27017/test"
-//   });
-// };
-// function getMongo3(){
-//   return dbMongo({
-//     dbAddress: "mongodb://47.94.207.219:27017/test"
-//   });
-// };
+let getMongo1 = () => {
+  return  dbMongo({
+    dbAddress: "mongodb://47.94.207.219:27017/test"
+  });
+};
+let getMongo2 = () =>{
+  return dbMongo({
+    dbAddress: "mongodb://47.94.207.219:27017/test"
+  });
+};
+let getMongo3 = () => {
+  return dbMongo({
+    dbAddress: "mongodb://47.94.207.219:27017/test"
+  });
+};
 
 (async () => {
-  console.log('aaa');
-  // try {
-  //   // let [mongo1,mongo2,mongo3] = await Promise.all([getMongo1(), getMongo2(), getMongo3()]);
-  //   // let mongo1 = getMongo1();
-  //   describe("Mongo构造函数", async () =>{
-  //     it("Mongo的实例应该是唯一的", () => {
-  //       // mongo1.should.be.eql(mongo2);
-  //       "1".should.be.eql("1");
-  //     });
-  //   });
-  // } catch(e){
-  //   console.log(e);
-  // }
+  try {
+    let [mongo1,mongo2,mongo3] = await Promise.all([getMongo1(), getMongo2(), getMongo3()]);
+    // console.log(mongo1);
+    // console.log(mongo2);
+    // console.log(mongo3);
+    describe("Mongo构造函数", () =>{
+      it("Mongo的实例应该是唯一的", () => {
+        // console.log(mongo1,mongo2);
+        // mongo1.should.be.eql(mongo2);
+        "1".should.be.eql("1");
+      });
+    });
+  } catch(e){
+    console.log(e);
+  }
 })();
   // it("实例化Mongo时，传入参数的属性dbAddress值如果为空应该返回'不能没有数据库地址'", function(){
 
