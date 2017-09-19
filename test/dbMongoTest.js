@@ -4,33 +4,21 @@ let dbMongo = require('../core/db/dbMongo.js');
 let runtime = require('babel-plugin-transform-runtime');
 let polyfill = require('babel-polyfill');
 
-let getMongo1 = () => {
-  return  dbMongo({
-    dbAddress: "mongodb://47.94.207.219:27017/test"
-  });
-};
-let getMongo2 = () =>{
-  return dbMongo({
-    dbAddress: "mongodb://47.94.207.219:27017/test"
-  });
-};
-let getMongo3 = () => {
-  return dbMongo({
-    dbAddress: "mongodb://47.94.207.219:27017/test"
-  });
-};
 
 (async () => {
   try {
-    let [mongo1,mongo2,mongo3] = await Promise.all([getMongo1(), getMongo2(), getMongo3()]);
-    // console.log(mongo1);
-    // console.log(mongo2);
-    // console.log(mongo3);
-    describe("Mongo构造函数", () =>{
-      it("Mongo的实例应该是唯一的", () => {
+    // let [mongo1,mongo2,mongo3] = await Promise.all([getMongo1(), getMongo2(), getMongo3()]);
+    let mongo1 = await getMongo1({
+      'dbAddress': 'mongodb://47.94.207.219:27017/test'
+    });
+    describe("Mongo构造函数查找（find）方法", () =>{
+      it("查找表信息", () => {
+        mongo1.find({
+          'tbName': ''
+        })
         // console.log(mongo1,mongo2);
         // mongo1.should.be.eql(mongo2);
-        "1".should.be.eql("1");
+        // "1".should.be.eql("1");
       });
     });
   } catch(e){
