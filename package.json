@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "",
+    "debug": "node-inspector ./test/dbMongoTest.js",
     "mochaMongo": "mocha --require babel-polyfill --compilers js:babel-register ./test/dbMongoTest.js",
     "mochaMysql": "mocha --require babel-polyfill --compilers js:babel-register ./test/dbMysqlTest.js",
+    "debugMongo": "mocha --debug-brk ./test/dbMongoTest.js",
     "testMongo": "istanbul cover ./node_modules/mocha/bin/_mocha -- --require babel-core/register --recursive ./test/dbMongoTest.js",
     "testMysql": "istanbul cover ./node_modules/mocha/bin/_mocha -- --require babel-core/register --recursive ./test/dbMysqlTest.js",
     "docs": "jsdoc2md core/db/dbMongo.js > docs/db/dbMongo.md"
