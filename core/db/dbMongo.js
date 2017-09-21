@@ -30,11 +30,7 @@ function Mongo(config) {
     return new Mongo(err, config);
   }
   if (!config.dbAddress) {
-<<<<<<< HEAD
-    config.error("不能没有数据库地址");
-=======
     config.error('不能没有数据库地址');
->>>>>>> d2afa98a084730184702e5cd48126684591e4d4d
   } else {
     config = Object.assign({}, _defaultConfig, config);
     MongoClient.connect(config.dbAddress, config, (err, db) => {
