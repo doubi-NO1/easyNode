@@ -8,9 +8,8 @@
     "debug": "node-inspector ./test/dbMongoTest.js",
     "mochaMongo": "mocha --require babel-polyfill --compilers js:babel-register ./test/dbMongoTest.js",
     "mochaMysql": "mocha --require babel-polyfill --compilers js:babel-register ./test/dbMysqlTest.js",
-    "debugMongo": "mocha --debug-brk ./test/dbMongoTest.js",
-    "testMongo": "istanbul cover ./node_modules/mocha/bin/_mocha -- --require babel-core/register --recursive ./test/dbMongoTest.js",
-    "testMysql": "istanbul cover ./node_modules/mocha/bin/_mocha -- --require babel-core/register --recursive ./test/dbMysqlTest.js",
+    "testMongo": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --compilers  js:babel/register --recursive ./test/dbMongoTest.js",
+    "testMysql": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --compilers js:babel/register --recursive ./test/dbMysqlTest.js",
     "docs": "jsdoc2md core/db/dbMongo.js > docs/db/dbMongo.md"
   },
   "author": "8-shen",
@@ -23,12 +22,14 @@
     "should": "^13.0.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-plugin-transform-regenerator": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-3": "^6.24.1",
-    "babel-register": "^6.26.0"
+    "babel-register": "^6.26.0",
+    "istanbul": "^0.4.5"
   }
 }

@@ -29,13 +29,8 @@ function Mongo(config) {
   if (!(this instanceof Mongo)) {
     return new Mongo(err, config);
   }
-  let message = {
-    ok: -1,
-    es: "未知错误"
-  };
   if (!config.dbAddress) {
-    message.es = "不能没有数据库地址";
-    options.error(message);
+    config.error("不能没有数据库地址");
   } else {
     config = Object.assign({}, _defaultConfig, config);
     MongoClient.connect(config.dbAddress, config, (err, db) => {
