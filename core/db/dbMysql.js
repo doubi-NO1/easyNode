@@ -144,7 +144,7 @@ Mysql.prototype = {
       try {
         let sqlText = 'select ';
         if (is.Array(options.fields) && options.fields.length) {
-          sqlText+=' ( '+ options.fields.join(' , ')+' ) ';
+          sqlText+= options.fields.join(' , ');
         } else {
           sqlText += ' * ';
         }

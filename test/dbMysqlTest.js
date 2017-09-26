@@ -103,6 +103,43 @@ let tbName = 'tb_test';
 (async() => {
     try {
         describe('mySql', () => {
+            describe('#query()', () => {
+                it('查询数据-select', async () => {
+                    try{
+                        let sql = await new mySql({
+                            host: '47.94.207.219',
+                            port: '3306',
+                            user: 'root',
+                            password: '7crH5H7KbuHx5YdL',
+                            database: 'test',
+                         });
+                         let data = await sql.query('select id,name from '+tbName+' where id > 20',{
+                             tbName: tbName,
+                             terms: ['id','name']
+                         });
+                         data.es.should.be.eql('success');
+                    }catch (e) {
+                        console.log(e);
+                    }
+                });
+            });
+            describe('#sqlTransaction()', () => {
+                it('事物构造器', async () => {
+                    try {
+                        let sql = await new mySql({
+                            host: '47.94.207.219',
+                            port: '3306',
+                            user: 'root',
+                            password: '7crH5H7KbuHx5YdL',
+                            database: 'test',
+                        });
+                        let data = await sql.sqlTransaction();
+                        data.should.have.property('connection');
+                    } catch(e) {
+                        console.log(e);
+                    }
+                });
+            });
             describe('#insert()', () => {
                 it('增加数据-数组格式', async() => {
                     try {
@@ -112,7 +149,7 @@ let tbName = 'tb_test';
                             user: 'root',
                             password: '7crH5H7KbuHx5YdL',
                             database: 'test',
-                         });
+                        });
                         let data = await sql.insert({
                             tbName: tbName,
                             data: [{
@@ -135,8 +172,6 @@ let tbName = 'tb_test';
                         console.log(e);
                     }
                 });
-            });
-            describe('#insert()', () => {
                 it('增加数据-对象格式', async() => {
                     try {
                         let sql = await new mySql({
@@ -155,7 +190,7 @@ let tbName = 'tb_test';
                             }
                         });
                         let total = data.total;
-                        total.should.be.eql(3);
+                        total.should.be.eql(1);
                     } catch(e) {
                         console.log(e);
                     }
@@ -195,7 +230,31 @@ let tbName = 'tb_test';
                 });
             });
             describe('#select()', () => {
-                it('选择数据', async ()=>{
+                it('选择固定列的数据', async ()=>{
+                    try {
+                        let sql = await new mySql({
+                            connectionLimit: 10,
+                            host: '47.94.207.219',
+                            port: '3306',
+                            user: 'root',
+                            password: '7crH5H7KbuHx5YdL',
+                            database: 'test',
+                        });
+                        let data = await sql.select({
+                            tbName: tbName,
+                            fields: ['name','id'],
+                            terms: {
+                                name: '146',
+                                description: 'description2'
+                            }
+                        });
+                        let es = data.es;
+                        es.should.be.eql('success');
+                    } catch(e) {
+                        console.log(e);
+                    }
+                });
+                it('选择所有列的数据', async ()=>{
                     try {
                         let sql = await new mySql({
                             connectionLimit: 10,
@@ -238,7 +297,7 @@ let tbName = 'tb_test';
                             }]
                          });
                          let es = data.es;
-                         es.should.be.eql('success');
+                         es.should.be.eql('事物执行成功');
                     } catch(e) {
                         console.log(e);
                     }
@@ -261,7 +320,7 @@ let tbName = 'tb_test';
                             }
                          });
                          let es = data.es;
-                         es.should.be.eql('success');
+                         es.should.be.eql('事物执行成功');
                     } catch(e) {
                         console.log(e);
                     }
