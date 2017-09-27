@@ -29,7 +29,7 @@ function createWhereText(terms) {
   }
   whereText += list.join(' and ');
   return whereText;
-} 
+}
 
 /**
  * @description 构造函数，默认导出此函数
@@ -76,7 +76,7 @@ Mysql.prototype = {
    */
   insert(options) {
     let self = this;
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async(resolve, reject) => {
       try {
         let data = options.data,
           sqlText = 'insert into ' + options.tbName + ' ',
@@ -114,9 +114,9 @@ Mysql.prototype = {
    * @param {Object} 配置 
    * @returns {Object} 执行结果
    */
-   update(options) {
+  update(options) {
     let self = this;
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async(resolve, reject) => {
       try {
         let data = options.data,
           sqlText = 'update ' + options.tbName + ' set ',
@@ -140,11 +140,11 @@ Mysql.prototype = {
    */
   select(options) {
     let self = this;
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async(resolve, reject) => {
       try {
         let sqlText = 'select ';
         if (is.Array(options.fields) && options.fields.length) {
-          sqlText+= ' '+options.fields.join(' , ')+' ';
+          sqlText += ' ' + options.fields.join(' , ') + ' ';
         } else {
           sqlText += ' * ';
         }
@@ -165,7 +165,7 @@ Mysql.prototype = {
   remove(options) {
     let self = this,
       sqlText = 'delete from ' + options.tbName;
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async(resolve, reject) => {
       try {
         let conn = await self.sqlTransaction();
         if (is.Object(options.terms)) {
@@ -228,7 +228,7 @@ Transactionn.prototype = {
     return new Promise((resolve, reject) => {
       try {
         self.connection.beginTransaction(() => {
-          self.sqlList.forEach(async (v) => {
+          self.sqlList.forEach(async(v) => {
             await self.query(v);
           });
         });
@@ -238,7 +238,7 @@ Transactionn.prototype = {
               ec: -1,
               es: err
             });
-          })) : resolve({
+          })) : self.connection.release(), resolve({
             ec: 0,
             es: '事物执行成功',
             total: self.sqlList.length
@@ -249,11 +249,14 @@ Transactionn.prototype = {
       }
     });
   },
-  query(sql){
+  query(sql) {
     let self = this;
-    return new Promise((resolve,reject)=>{
+    return new Promise((resolve, reject) => {
       self.connection.query(sql, (err, result) => {
-        err?reject(err):resolve(result);
+        err ? self.connection.rollback((er) => {
+          self.connection.release();
+          reject(er || err);
+        }) : resolve(result);
       });
     });
   }
