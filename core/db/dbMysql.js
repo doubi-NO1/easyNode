@@ -224,30 +224,18 @@ Transactionn.prototype = {
    * @returns {Object} 执行结果
    */
   exec() {
-    let self = this,results=[];
+    let self = this;
     return new Promise((resolve, reject) => {
-      try {
-        self.connection.beginTransaction(() => {
-          self.sqlList.forEach(async(v) => {
-            results.push(await self.query(v));
-          });
-        });
-        self.connection.commit((err) => {
-          err ? (self.connection.rollback(() => {
-            reject({
-              ec: -1,
-              es: err
-            });
-          })) : self.connection.release(), resolve({
-            ec: 0,
-            es: '事物执行成功',
-            total: self.sqlList.length,
-            result:results
-          });
-        });
-      } catch (e) {
-        reject(e);
-      }
+      self.connection.beginTransaction(async() => {
+        try {
+          for (let i = 0; i <= self.sqlList.length; i++) {
+            console.log(i);
+            i < self.sqlList.length ? await self.query(self.sqlList[i]) : resolve(await self.commit());
+          }
+        } catch (e) {
+          reject(e);
+        }
+      });
     });
   },
   query(sql) {
@@ -256,8 +244,28 @@ Transactionn.prototype = {
       self.connection.query(sql, (err, result) => {
         err ? self.connection.rollback((er) => {
           self.connection.release();
-          reject(er || err);
+          reject({
+            ec: -1,
+            es: er || err
+          });
         }) : resolve(result);
+      });
+    });
+  },
+  commit() {
+    let self = this;
+    return new Promise((resolve, reject) => {
+      self.connection.commit((err) => {
+        err ? (self.connection.rollback(() => {
+          reject({
+            ec: -1,
+            es: err
+          });
+        })) : self.connection.release(), resolve({
+          ec: 0,
+          es: '事物执行成功',
+          total: self.sqlList.length
+        });
       });
     });
   }
