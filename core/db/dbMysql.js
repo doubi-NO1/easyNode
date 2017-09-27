@@ -229,7 +229,6 @@ Transactionn.prototype = {
       self.connection.beginTransaction(async() => {
         try {
           for (let i = 0; i <= self.sqlList.length; i++) {
-            console.log(i);
             i < self.sqlList.length ? await self.query(self.sqlList[i]) : resolve(await self.commit());
           }
         } catch (e) {
