@@ -102,7 +102,7 @@ let tbName = 'tb_test';
 
 (async() => {
     try {
-        describe('mySql', () => {
+        describe('mySql简单操作', () => {
             describe('#query()', () => {
                 it('查询数据-select', async () => {
                     try{
@@ -119,23 +119,6 @@ let tbName = 'tb_test';
                          });
                          data.es.should.be.eql('success');
                     }catch (e) {
-                        console.log(e);
-                    }
-                });
-            });
-            describe('#sqlTransaction()', () => {
-                it('事物构造器', async () => {
-                    try {
-                        let sql = await new mySql({
-                            host: '47.94.207.219',
-                            port: '3306',
-                            user: 'root',
-                            password: '7crH5H7KbuHx5YdL',
-                            database: 'test',
-                        });
-                        let data = await sql.sqlTransaction();
-                        data.should.have.property('connection');
-                    } catch(e) {
                         console.log(e);
                     }
                 });
@@ -326,6 +309,115 @@ let tbName = 'tb_test';
                     }
                 });
            });
+        });
+        describe('mySql事物操作',() => {
+            it('事物构造器实例应该有connection属性', async () => {
+                try {
+                    let sql = await new mySql({
+                        host: '47.94.207.219',
+                        port: '3306',
+                        user: 'root',
+                        password: '7crH5H7KbuHx5YdL',
+                        database: 'test',
+                    });
+                    let data = await sql.sqlTransaction();
+                    data.should.have.property('connection');
+                } catch(e) {
+                    console.log(e);
+                }
+            });
+            it('调用多个操作', async () => {
+                try{
+                    let sql = await new mySql({
+                        host: '47.94.207.219',
+                        port: '3306',
+                        user: 'root',
+                        password: '7crH5H7KbuHx5YdL',
+                        database: 'test',
+                    });
+                    await sql.insert({
+                        tbName: tbName,
+                        data: [{
+                            'name':'铭铭',
+                            'description': 'mignming'
+                        },{
+                            'name': '早早',
+                            'description': 'zaozao'
+                        },{
+                            'name': '玩玩',
+                            'description': 'wanwan'
+                        }]
+                    });
+                    await sql.update({
+                        tbName: tbName,
+                        data: {
+                            'name': '命名'
+                        },
+                        terms: {
+                            'id': 64
+                        }
+                    });
+                    let data = await sql.select({
+                        tbName: tbName,
+                        terms: {
+                             id:64
+                        },
+                        fields: ['name','id']
+                    });
+                    data.es.should.eql('success');
+                } catch (e) {
+                    console.log(e);
+                }
+            });
+            it('同表多个sql事物操作', async () => {
+                try {
+                    let sql = await new mySql({
+                        host: '47.94.207.219',
+                        port: '3306',
+                        user: 'root',
+                        password: '7crH5H7KbuHx5YdL',
+                        database: 'test',
+                    });
+                    let art = [
+                        'insert into ' + tbName + 'values (101,"张三三","zhangsansan")',
+                        'select id,name from ' + tbName + 'where id = 101',
+                        'INSERT into '+ tbName +'(name,description) VALUES ("王进","wangjin")',
+                        'UPDATE '+ tbName +' SET name = "张张" WHERE id=23'
+                    ];
+                    let tran = await sql.sqlTransaction();
+                    art.forEach((v) => {
+                        tran.add(v);
+                    });
+                    let data = await tran.exec();
+                    data.total.should.eql(4);
+                } catch(e) {
+                    console.log(e);
+                }
+            });
+            it('连表多个sql事物操作', async () => {
+                try {
+                    let sql = await new mySql({
+                        host: '47.94.207.219',
+                        port: '3306',
+                        user: 'root',
+                        password: '7crH5H7KbuHx5YdL',
+                        database: 'test',
+                    });
+                    let art = [
+                        'insert into tb_test(id,name,description) values (200,"往往","wangwang")',
+                        'insert into tb_order(order,t_id) values (9,200)',
+                        'select tb_test.name,tb_test.description,tb_order.order,t_order.t_id from tb_test,tb_order where tb_test.id = tb_order.t_id'
+                    ];
+                    let tran = await sql.sqlTransaction();
+                    art.forEach((v) => {
+                        tran.add(v);
+                    });
+                    let data = await tran.exec();
+                    data.total.should.eql(3);
+                }catch(e) {
+                    console.log(e);
+                }
+            });
         });
     } catch(e) {
         console.log(e);
