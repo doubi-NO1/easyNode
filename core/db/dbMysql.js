@@ -227,8 +227,8 @@ Transactionn.prototype = {
     let self = this;
     return new Promise((resolve, reject) => {
       try {
-        self.connection.beginTransaction(async () => {
-          self.sqlList.forEach((v) => {
+        self.connection.beginTransaction(() => {
+          self.sqlList.forEach(async (v) => {
             await self.query(v);
           });
         });
