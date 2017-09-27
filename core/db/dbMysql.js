@@ -29,7 +29,7 @@ function createWhereText(terms) {
   }
   whereText += list.join(' and ');
   return whereText;
-}
+} 
 
 /**
  * @description 构造函数，默认导出此函数
@@ -227,9 +227,9 @@ Transactionn.prototype = {
     let self = this;
     return new Promise((resolve, reject) => {
       try {
-        self.connection.beginTransaction(() => {
+        self.connection.beginTransaction(async () => {
           self.sqlList.forEach((v) => {
-            self.connection.query(v, (err, result) => {});
+            await self.query(v);
           });
         });
         self.connection.commit((err) => {
@@ -247,6 +247,14 @@ Transactionn.prototype = {
       } catch (e) {
         reject(e);
       }
+    });
+  },
+  query(sql){
+    let self = this;
+    return new Promise((resolve,reject)=>{
+      self.connection.query(sql, (err, result) => {
+        err?reject(err):resolve(result);
+      });
     });
   }
 };
