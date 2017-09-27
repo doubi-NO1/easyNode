@@ -224,12 +224,12 @@ Transactionn.prototype = {
    * @returns {Object} 执行结果
    */
   exec() {
-    let self = this;
+    let self = this,results=[];
     return new Promise((resolve, reject) => {
       try {
         self.connection.beginTransaction(() => {
           self.sqlList.forEach(async(v) => {
-            await self.query(v);
+            results.push(await self.query(v));
           });
         });
         self.connection.commit((err) => {
@@ -241,7 +241,8 @@ Transactionn.prototype = {
           })) : self.connection.release(), resolve({
             ec: 0,
             es: '事物执行成功',
-            total: self.sqlList.length
+            total: self.sqlList.length,
+            result:results
           });
         });
       } catch (e) {
