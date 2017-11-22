@@ -2,41 +2,57 @@
  * http server构造器
  * @author 巴神
  */
-var http = require('http');
-var config = require('../conf/index.js');
-var filter = require('./filter.js');
-var controller = require('./controller.js');
+let http = require('http'),
+  filter = require('./filter.js'),
+  controller = require('./controller.js'),
+  mysql = require('./db/dbMysql.js'),
+  mongo = require('./db/dbMongo.js'),
+  interface = require('interface.js'),
+  fastInterface = require('./db/fastInterface.js');
 
+  
 /**
  * 
  * 创建一个http实例
  * 
  */
-function APP(port){
-  if(!(this instanceof APP)){
-    return new APP();
+function APP(config,interfaces) {
+  if (!(this instanceof APP)) {
+    return new APP(config);
   }
   this.port = port || config.port;
-  controller.setup();
-  this.server = http.createServer((req,res)=>{
-    var answer = filter(req,res) || router(req,res);
-    answer.isEnd || (res.writeHead(answer.status,answer.headers),
-    res.end(answer.content));
-  });
+  this.server = http.createServer((req, res) => { 
+    this.interface = interface;
+    config.dbConfigs.mysql && (this.mysql = await mysql(this.dbConfigs.mysql));
+    config.dbConfigs.mongo && (this.mongo = await mongo(this.dbConfigs.mongo));
+    config.fastInterface && (interfaces = Object.assign({}, fastInterface(this.mysql,this.mongo), interfaces || {}));
+    this.interface.setup(interfaces);
+  }); 
 }
 
-APP.prototype={
-  start(){
-    this.server.listen(this.port,0,0,0,0);
-    console.log('server is running at port:'+this.port);
+APP.prototype = {
+  start() {
+    this.server.listen(this.port, 0, 0, 0, 0);
+    console.log('server is running at port:' + this.port);
   },
-  stop(){
+  stop() {
     this.server.close();
   },
-  restart(){
+  restart() {
     this.server.close();
-    this.server.listen(this.port,0,0,0,0);
+    this.server.listen(this.port, 0, 0, 0, 0);
   }
 };
 
-module.exports=APP;
+module.exports = ()=>{
+  return new Promise((resolve,reject)=>{
+    try{
+      resolve(APP());
+    }catch(err){
+      reject({
+        es:-1,
+        es:err
+      });
+    }
+  });
+};

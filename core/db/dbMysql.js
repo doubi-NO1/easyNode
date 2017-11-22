@@ -38,6 +38,7 @@ function createWhereText(terms) {
  * @returns {Object} mysql pool 
  */
 function Mysql(config) {
+  this.config=config;
   this.pool = mysql.createPool(config);
 }
 
@@ -184,6 +185,7 @@ Mysql.prototype = {
   },
   /**
    * @description 事物构造器
+   * 
    * 
    * @returns {Object} 返回一个事物Transactionn 
    */
