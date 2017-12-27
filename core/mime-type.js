@@ -4,7 +4,7 @@
  * mime-type集合
  */
 
-var types = {
+let types = {
   'image/': function () {
 
   },

@@ -6,8 +6,7 @@ function createMysqlInterface(mysql) {
       let tables = await mysql.query(tbSqlText);
       tables.list.forEach(v => {
         let columnSqlText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLENAME='" + v['TABLE_NAME']+"'";
-        let column = await mysql.query(columnSqlText);
-        
+        let column = await mysql.query(columnSqlText);  
       });
       resolve(result);
     } catch (err) {
