@@ -1,51 +1,49 @@
-let filter=require('./filter.js');//拦截器
-
-let interface={
-  gets:{  
+let interface = {
+  gets: {
 
   },
-  posts:{
+  posts: {
 
   },
-  sets:{//set代表既可以post又可以get
+  any: { //set代表既可以post又可以get
 
   },
-  catalog:{//接口目录
+  catalog: { //接口目录
 
   }
 };
 
-function post(url, fn) {
-  interface.posts[url] = fn;
-  interface.catalog[url]='post';
-}
+let post = (url, fn) => {
+    interface.posts[url] = fn;
+    interface.catalog[url] = 'post';
+  },
 
-function get(url, fn) {
-  interface.gets[url] = fn;
-  interface.catalog[url]='get';
-}
+  get = (url, fn) => {
+    interface.gets[url] = fn;
+    interface.catalog[url] = 'get';
+  },
 
-function set(url, fn) {
-  interface.sets[url] = fn;
-  interface.catalog[url]='set';
-}
+  any = (url, fn) => {
+    interface.any[url] = fn;
+    interface.catalog[url] = 'any';
+  },
 
-function setup(interfaces) {
-  interfaces.forEach(v => {
-    interface[v.type || 'set']=v.fn;
-    interface.catalog[url]=v.type || 'set';
-  });
-}
+  setup = (interfaces) => {
+    interfaces.forEach(v => {
+      interface[v.type || 'any'] = v.fn;
+      interface.catalog[url] = v.type || 'any';
+    });
+  },
 
-function handle(url,req,res){
-  let type = interface.catalog[url];
-  type && interface[type][url](req,res);
-}
+  handle = (url, req, res) => {
+    let type = interface.catalog[url];
+    type && interface[type][url](req, res);
+  };
 
 module.exports = {
   post,
   get,
-  set,
+  any,
   setup,
   handle
 };

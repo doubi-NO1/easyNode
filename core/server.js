@@ -22,18 +22,17 @@ function APP(config,interfaces) {
   }
   this.port = port || config.port;
   this.server = http.createServer((req, res) => { 
-    this.interface = interface;
-    config.dbConfigs.mysql && (this.mysql = await mysql(this.dbConfigs.mysql));
-    config.dbConfigs.mongo && (this.mongo = await mongo(this.dbConfigs.mongo));
-    config.fastInterface && (interfaces = Object.assign({}, fastInterface(this.mysql,this.mongo), interfaces || {}));
-    this.interface.setup(interfaces);
+    config.dbConfigs.mysql && (this.mysql = config.dbConfigs.mysql);
+    config.dbConfigs.mongo && (this.mongo = config.dbConfigs.mongo);
+    config.fastInterface && (interfaces = Object.assign({}, fastInterface(this), interfaces || {}));
+    this.interface = interface.setup(interfaces);
   }); 
 }
 
 APP.prototype = {
   start() {
     this.server.listen(this.port, 0, 0, 0, 0);
-    console.log('server is running at port:' + this.port);
+    console.log('The server is running at port:' + this.port);
   },
   stop() {
     this.server.close();
@@ -44,10 +43,10 @@ APP.prototype = {
   }
 };
 
-module.exports = ()=>{
+module.exports = (config, interfaces)=>{
   return new Promise((resolve,reject)=>{
     try{
-      resolve(APP());
+      resolve(APP(config, interfaces));
     }catch(err){
       reject({
         es:-1,

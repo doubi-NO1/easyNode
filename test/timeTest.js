@@ -12,10 +12,24 @@ let searchTerms = "";
 
 (async () => {
   try {
-    let mongo1 = await dbMongo();
-    console.log(mongo1);
+    let mongo1 = await dbMongo({
+      dbAddress: address
+    });
+    let data = await mongo1.insert({
+      tbName: tbName,
+      data: [{
+        "name": "liwei",
+        "age": "12",
+        "sex": "男"
+      }, {
+        "name": "张三",
+        "age": "23",
+        "sex": "nv"
+      }]
+    });
+    console.log(data);
   } catch (e) {
     let msg = e.ok;
     console.log(msg);
   }
-});
+})();
