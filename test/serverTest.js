@@ -1,9 +1,10 @@
-let mongo = require('../core/db/dbMongo.js'),
-    mysql = require('../core/db/dbMysql'),
-    config = require('../conf/dev.js'),
-    APP = require('../core/server.js');
-(async ()=>{
-  try{
+let APP = require('../core');
+
+const config = {
+
+};
+modules.exports = async () => {
+  try {
     let server = await APP(Object.assign({}, config, {
       dbConfigs: {
         mysql: await mysql(config.dbConfigs.mysql),
@@ -11,8 +12,7 @@ let mongo = require('../core/db/dbMongo.js'),
       }
     }));
     server.start();
-  }catch(e){
-    console.log(e);
+  } catch (e) {
+    console.log('the server was started failed:', e);
   }
-})();
-
+};

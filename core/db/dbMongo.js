@@ -2,8 +2,10 @@
  * mongodb封装
  * @author 巴神
  * 2017/9/10
+ * 暂时没有实现分页查询部分
  */
 
+ 
 const MongoClient = require('mongodb').MongoClient;
 
 const _defaultConfig = {
@@ -33,8 +35,8 @@ function Mongo(config) {
     config.error('不能没有数据库地址');
   } else {
     config = Object.assign({}, _defaultConfig, config);
-    MongoClient.connect(config.dbAddress, config, (err, db) => {
-      err ? config.error(err) : (this.db = db, config.success(this));
+    MongoClient.connect(config.dbAddress, config, (err, client) => {
+      err ? config.error(err) : (this.db = client.db(config.dbName), config.success(this));
     });
   }
 }
@@ -118,7 +120,7 @@ Mongo.prototype = {
    */
   update(options) {
     let self = this;
-    return new Promise((resolve, rejecgt) => {
+    return new Promise((resolve, reject) => {
       try {
         self.db.collection(options.tbName).updateMany(options.terms, {
           $set: options.data

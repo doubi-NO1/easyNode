@@ -1,15 +1,12 @@
 {
-  "name": "chinaren",
+  "name": "easyNode",
   "version": "1.0.0",
-  "description": "通用校友录",
+  "description": "第一次学习node，尝试写一个简单易用的框架",
   "main": "index.js",
   "scripts": {
-    "test": "",
+    "mochaTest": "mocha --require babel-polyfill --compilers js:babel-register ./test/index.js",
+    "test": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --compilers  js:babel/register --recursive ./test/index.js",
     "debug": "node-inspector ./test/dbMongoTest.js",
-    "mochaMongo": "mocha --require babel-polyfill --compilers js:babel-register ./test/dbMongoTest.js",
-    "mochaMysql": "mocha --require babel-polyfill --compilers js:babel-register ./test/dbMysqlTest.js",
-    "testMongo": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --compilers  js:babel/register --recursive ./test/dbMongoTest.js",
-    "testMysql": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha ./test/dbMysqlTest.js -- --require babel-register",
     "docs": "jsdoc2md core/db/dbMongo.js > docs/db/dbMongo.md"
   },
   "author": "8-shen",
@@ -17,7 +14,7 @@
   "dependencies": {
     "jsdoc-to-markdown": "^3.0.0",
     "mocha": "^3.5.0",
-    "mongodb": "^2.2.31",
+    "mongodb": "^3.0.3",
     "mysql": "^2.14.1",
     "should": "^13.0.0"
   },

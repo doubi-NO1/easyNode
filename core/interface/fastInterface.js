@@ -1,4 +1,4 @@
-let interface = require('../interface.js');
+let _interface = require('../interface.js');
 
 /**
  * 根据mysql数据库生成对应接口（仅包含单表的增删改查）
@@ -83,7 +83,7 @@ let _app,mySqlInterfaces={
           tables = await mysql.query(tbSqlText);
         tables.list.forEach((table) => {
             ['select','detail','insert','update','remove'].forEach((v)=>{
-              interface.any('/' + table + '/' + v + '.do', mySqlInterfaces[v](table));
+              _interface.any('/' + table + '/' + v + '.do', mySqlInterfaces[v](table));
             });
         });
         resolve(result);
@@ -96,7 +96,7 @@ let _app,mySqlInterfaces={
   createMongoInterface = (mongo) => {
     return new Promise((resolve, reject) => {
       try {
-
+        
       } catch (e) {
         reject(err);
       }
@@ -105,7 +105,7 @@ let _app,mySqlInterfaces={
 
 
 module.exports = async(app) => {
-  let res = {}; _app = app;
+  let res = {}, _app = app;
   return new Promise(async (resolve, reject) => {
     try {
       app.mysql && Object.assign(res, await createMySqlInterface(app.mysql));

@@ -1,5 +1,5 @@
 /**
- * url路由中间件
+ * url路由
  * @author 巴神
  */
 var mimeType = require('./mime-type.js');

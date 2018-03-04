@@ -2,12 +2,14 @@
  * mysql封装
  * @author 巴神
  * 2017/9/10
+ * 暂时没有实现分页查询部分
  */
 
 const mysql = require("mysql");
 const is = require('../utils/is.js');
 
 //参考资料:https://github.com/mysqljs/mysql
+
 
 /**
  * @description 生成 where 条件
@@ -38,7 +40,7 @@ function createWhereText(terms) {
  * @returns {Object} mysql pool 
  */
 function Mysql(config) {
-  this.config=config;
+  this.config = config;
   this.pool = mysql.createPool(config);
 }
 
@@ -77,7 +79,7 @@ Mysql.prototype = {
    */
   insert(options) {
     let self = this;
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       try {
         let data = options.data,
           sqlText = 'insert into ' + options.tbName + ' ',
@@ -117,7 +119,7 @@ Mysql.prototype = {
    */
   update(options) {
     let self = this;
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       try {
         let data = options.data,
           sqlText = 'update ' + options.tbName + ' set ',
@@ -141,7 +143,7 @@ Mysql.prototype = {
    */
   select(options) {
     let self = this;
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       try {
         let sqlText = 'select ';
         if (is.Array(options.fields) && options.fields.length) {
@@ -166,15 +168,15 @@ Mysql.prototype = {
   remove(options) {
     let self = this,
       sqlText = 'delete from ' + options.tbName;
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       try {
         let conn = await self.sqlTransaction();
-        if (is.Object(options.terms)) {
-          sqlText += createWhereText(options.terms);
-          conn.add(sqlText);
-        } else if (is.Array(options.terms)) {
-          options.terms.forEach((v) => {
-            conn.add(sqlText + createWhereText(v));
+        if (is.Object(options)) {
+          sqlText = 'delete from ' + options.tbName + createWhereText(options.terms);
+        } else if (is.Array(options)) {
+          options.forEach(v => {
+            sqlText = 'delete from ' + v.tbName + createWhereText(v.terms);
+            conn.add(sqlText);
           });
         }
         resolve(await conn.exec());
@@ -228,7 +230,7 @@ Transactionn.prototype = {
   exec() {
     let self = this;
     return new Promise((resolve, reject) => {
-      self.connection.beginTransaction(async() => {
+      self.connection.beginTransaction(async () => {
         try {
           for (let i = 0; i <= self.sqlList.length; i++) {
             i < self.sqlList.length ? await self.query(self.sqlList[i]) : resolve(await self.commit());
