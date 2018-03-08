@@ -1,7 +1,7 @@
 let dbMongoTest = require('./dbMongoTest');
 let dbMysqlTest = require('./dbMysqlTest');
-let interfaceTest = require('./interfaceTest');
+let routeTest = require('./routeTest');
 
 dbMongoTest();
 dbMysqlTest();
-interfaceTest();
+routeTest();

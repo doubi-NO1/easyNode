@@ -1,6 +1,6 @@
 module.exports= {
   port:8080,
-  fastInterface:true,
+  fastInterface:false,
   origns:[],
   dbConfigs:{
     mysql:{
@@ -8,9 +8,9 @@ module.exports= {
       host: '',
       port: '3306',
       user: 'root',
-      password: '7crH5H7KbuHx5YdL',
-      database: 'test'
+      password: '',
+      database: ''
     },
-    mongo: 'mongodb://47.94.207.219:27017/test'
+    mongo: ''
   }
 };

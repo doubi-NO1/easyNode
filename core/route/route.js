@@ -59,7 +59,7 @@ class Route {
       res.write('<h1>您访问的地址不存在...</h1>');
       res.end();
     }
-    this.setup(routes);
+    this.setup(routes || []);
   }
   /**
    * @description 注册一个get类型的接口
@@ -111,6 +111,7 @@ class Route {
    * }])
    */
   setup(routes) {
+    if(!is.Array(routes)) return;
     routes.forEach(v => {
       let type, callback, path;
       Object.keys(v).forEach((prop) => {

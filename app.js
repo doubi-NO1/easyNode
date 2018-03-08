@@ -1,8 +1,8 @@
 /**
  * 服务端入口
  */
-var app = require('./core'),
+const APP = require('./core'),
     conf = require('./conf');
 
 //启动服务
-app.start(conf);
+new APP(conf).start();

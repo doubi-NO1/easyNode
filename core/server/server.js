@@ -5,7 +5,6 @@
  * @author 巴神
  */
 let http = require('http'),
-  filter = require('../filter'),
   controller = require('../controller'),
   db = require('../db'),
   Route = require('../route'),
@@ -31,7 +30,7 @@ class APP {
     this.config.fastController && (controllers = Object.assign({}, fastController(this), controllers || {}));
     this.router = new Route(controllers, this.config.defaultAction);
     this.server = http.createServer(async (req, res) => {
-      await this.middleWare(req,res);
+      //await this.middleWare(req,res);
       this.router.handle(this,req, res);
     });
   }
