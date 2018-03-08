@@ -6,7 +6,7 @@
  */
 
 const mysql = require("mysql");
-const is = require('../utils/is.js');
+const is = require('../utils').is;
 
 //参考资料:https://github.com/mysqljs/mysql
 

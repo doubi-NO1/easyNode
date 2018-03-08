@@ -1,7 +1,5 @@
-const is = require('./is'),
-      parms = require('./parms');
+const is = require('./is');
 
 module.exports={
-  is,
-  parms
+  is
 };

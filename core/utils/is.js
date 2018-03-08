@@ -1,5 +1,5 @@
 let is = {
-  types: ["Array", "Boolean", "Date", "Number", "Object", "RegExp", "String"]
+  types: ["Array", "Boolean", "Date", "Number", "Object", "RegExp", "String","Function"]
 };
 for (let i = 0,c; c = is.types[i++];) {
   is[c] = ((type) => {
