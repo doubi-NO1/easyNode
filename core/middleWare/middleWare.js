@@ -1,7 +1,3 @@
-let middleWares = [
-
-];
-
 /**
  * @description 中间件装饰器（与koa中间件的洋葱模型类似），暂不支持await next()方式，后续补上
  * @param {Function} middleWare 某个中间件模型

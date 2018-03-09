@@ -5,7 +5,8 @@
  * 暂时没有实现分页查询部分
  */
 
- 
+ 'use strict'
+
 const MongoClient = require('mongodb').MongoClient;
 
 const _defaultConfig = {
@@ -27,21 +28,17 @@ const _defaultConfig = {
  * @param {Object} config 
  * @returns object
  */
-function Mongo(config) {
-  if (!(this instanceof Mongo)) {
-    return new Mongo(err, config);
+class Mongo{
+  constructor(){
+    if (!config.dbAddress) {
+      config.error('不能没有数据库地址');
+    } else {
+      config = Object.assign({}, _defaultConfig, config);
+      MongoClient.connect(config.dbAddress, config, (err, client) => {
+        err ? config.error(err) : (this.db = client.db(config.dbName), config.success(this));
+      });
+    }
   }
-  if (!config.dbAddress) {
-    config.error('不能没有数据库地址');
-  } else {
-    config = Object.assign({}, _defaultConfig, config);
-    MongoClient.connect(config.dbAddress, config, (err, client) => {
-      err ? config.error(err) : (this.db = client.db(config.dbName), config.success(this));
-    });
-  }
-}
-
-Mongo.prototype = {
   /**
    * @description 查找
    * 
@@ -78,7 +75,7 @@ Mongo.prototype = {
         });
       }
     });
-  },
+  }
   /**
    * @description 查询一条数据
    * 
@@ -87,7 +84,7 @@ Mongo.prototype = {
    */
   findOne(options) {
     return this.find(options, true);
-  },
+  }
   /**
    * @description 新增
    * 
@@ -111,7 +108,7 @@ Mongo.prototype = {
         });
       }
     });
-  },
+  }
   /**
    * @description 更新
    * 
@@ -137,7 +134,7 @@ Mongo.prototype = {
         });
       }
     });
-  },
+  }
   /**
    * @description 删除
    * 

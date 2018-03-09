@@ -2,8 +2,10 @@
  * mysql封装
  * @author 巴神
  * 2017/9/10
- * 暂时没有实现分页查询部分
+ * 暂时没有实现分页查询部分,以后补上
  */
+
+'use strict'
 
 const mysql = require("mysql");
 const is = require('../utils').is;
@@ -17,7 +19,7 @@ const is = require('../utils').is;
  * @param {Object} 查询条件，可以是对象或数组 
  * @returns{string} 查询条件字符串
  */
-function createWhereText(terms) {
+const createWhereText=(terms)=> {
   let whereText = ' where (1=1) and ',
     list = [];
   if (is.Object(terms)) {
@@ -39,12 +41,11 @@ function createWhereText(terms) {
  * @param {Object} 配置
  * @returns {Object} mysql pool 
  */
-function Mysql(config) {
-  this.config = config;
-  this.pool = mysql.createPool(config);
-}
-
-Mysql.prototype = {
+class Mysql{
+  constructor(config) {
+    this.config = config;
+    this.pool = mysql.createPool(config);
+  }
   /**
    * @description sql执行器
    * 
@@ -69,8 +70,7 @@ Mysql.prototype = {
         }));
       });
     });
-  },
-
+  }
   /**
    * @description 新增
    * 
@@ -109,8 +109,7 @@ Mysql.prototype = {
         reject(e);
       }
     });
-  },
-
+  }
   /**
    * @description 更新
    * 
@@ -134,7 +133,7 @@ Mysql.prototype = {
         reject(e);
       }
     });
-  },
+  }
   /**
    * @description 查询
    * 
@@ -158,7 +157,7 @@ Mysql.prototype = {
         reject(e);
       }
     });
-  },
+  }
   /**
    * @description 删除
    * 
@@ -184,36 +183,35 @@ Mysql.prototype = {
         reject(e);
       }
     });
-  },
+  }
   /**
    * @description 事物构造器
    * 
    * 
-   * @returns {Object} 返回一个事物Transactionn 
+   * @returns {Object} 返回一个事物Transaction
    */
   sqlTransaction() {
     let self = this;
     return new Promise((resolve, reject) => {
       self.pool.getConnection((err, conn) => {
-        err ? reject(err) : resolve(new Transactionn(conn));
+        err ? reject(err) : resolve(new Transaction(conn));
       });
     });
   }
-};
+}
 
 /**
  * @description 真实的事物构造器
  * 
  * @param {Object} connection 
- * @returns {Object} Transactionn
+ * @returns {Object} Transaction
  */
-function Transactionn(conn) {
-  if (!(this instanceof Transactionn)) return new Transactionn();
-  this.sqlList = [];
-  this.connection = conn;
-}
-
-Transactionn.prototype = {
+class Transaction{
+  constructor(conn) {
+    if (!(this instanceof Transaction)) return new Transaction();
+    this.sqlList = [];
+    this.connection = conn;
+  }
   /**
    * @description 向事物中添加一条sql
    * 
@@ -221,7 +219,7 @@ Transactionn.prototype = {
    */
   add(sqlText) {
     this.sqlList.push(sqlText);
-  },
+  }
   /**
    * @description 执行事物
    * 
@@ -240,7 +238,7 @@ Transactionn.prototype = {
         }
       });
     });
-  },
+  }
   query(sql) {
     let self = this;
     return new Promise((resolve, reject) => {
@@ -254,7 +252,7 @@ Transactionn.prototype = {
         }) : resolve(result);
       });
     });
-  },
+  }
   commit() {
     let self = this;
     return new Promise((resolve, reject) => {
@@ -272,6 +270,6 @@ Transactionn.prototype = {
       });
     });
   }
-};
+}
 
 module.exports = Mysql;

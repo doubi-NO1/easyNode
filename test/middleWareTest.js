@@ -4,28 +4,28 @@ let mocha = require('mocha');
 let runtime = require('babel-plugin-transform-runtime');
 let polyfill = require('babel-polyfill');
 
-let number = 0,
+let str = '',
   middleWares = [
     () => {
-      number++
+      str+='a'
     },
     () => {
-      number++
+      str+='b'
     },
     () => {
-      number++
+      str+='c'
     },
     () => {
-      number++
+      str+='d'
     },
     (req, res) => {
-      number++
+      str+='e'
     }
   ]
 
 module.exports = () => {
   describe('中间件顺序执行', () => {
     middleWare(middleWares)();
-    number.should.be.eql(5);
+    str.should.be.eql('abcde');
   });
 }
