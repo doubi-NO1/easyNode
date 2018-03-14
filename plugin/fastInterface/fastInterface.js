@@ -76,7 +76,7 @@ let _app,mySqlInterfaces={
   },
 },
   createMySqlInterface = (mysql) => {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       try {
         let result = {},
           tbSqlText = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '" + mysql.config.database + "'",

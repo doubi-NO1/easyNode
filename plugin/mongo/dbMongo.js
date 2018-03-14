@@ -29,7 +29,7 @@ const _defaultConfig = {
  * @returns object
  */
 class Mongo{
-  constructor(){
+  constructor(config){
     if (!config.dbAddress) {
       config.error('不能没有数据库地址');
     } else {

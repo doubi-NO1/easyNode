@@ -3,10 +3,8 @@
  * @author 巴神
  */
 
-'use strict'
-
- class Plugin {
-   constructor(plugins){
-    this.plugins=plugins;
-   }
- }
+module.exports = (app, plugins) => {
+  for (var key in plugins) {
+    app[key] = plugins[key];
+  }
+}

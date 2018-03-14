@@ -8,7 +8,7 @@ const decorator = (middleWare, handle) => {
   return (...args) => {
     return new Promise(async (resolve, reject) => {
       try {
-        handle && handle(...args);
+        handle(...args);
         middleWare(...args);
         resolve();
       } catch (e) {

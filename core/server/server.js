@@ -5,8 +5,7 @@
  * @author 巴神
  */
 let http = require('http'),
-  controller = require('../controller'),
-  db = require('../db'),
+  plugin = require('../plugin'),
   Route = require('../route'),
   middleWare = require('../middleWare');
 
@@ -24,10 +23,8 @@ class APP {
       port:8080,
       middleWare: []
     }, config);
-    this.config.dbConfigs.mysql && (this.mysql = this.config.dbConfigs.mysql);
-    this.config.dbConfigs.mongo && (this.mongo = this.config.dbConfigs.mongo);
+    plugin(this, this.config.plugins);
     this.middleWare = middleWare(this.config.middleWare);
-    this.config.fastController && (controllers = Object.assign({}, fastController(this), controllers || {}));
     this.router = new Route(controllers, this.config.defaultAction);
     this.server = http.createServer(async (req, res) => {
       //await this.middleWare(req,res);
