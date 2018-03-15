@@ -129,13 +129,13 @@ class Route {
       let reg = getRegExp(path),
         result = reg.exec(_path);
       if (result && result[0] && result[0] != '') {
-        routes[path] && routes[path].call(app, req, res, result.slice(1));
+        routes[path] && routes[path](app, req, res, result.slice(1));
         found = true;
         break;
       }
     }
     if (!found && this.defaultAction) {
-      this.defaultAction.call(this, req, res);
+      this.defaultAction(app, req, res);
     }
   }
 }
