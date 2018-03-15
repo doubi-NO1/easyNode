@@ -164,25 +164,4 @@ class Mongo{
   }
 }
 
-module.exports = (options) => {
-  return new Promise((resolve, reject) => {
-    try {
-      new Mongo(Object.assign(options, {
-        success: (mongo) => {
-          resolve(mongo);
-        },
-        error: (err) => {
-          reject({
-            ok: -1,
-            es: err
-          });
-        }
-      }));
-    } catch (e) {
-      reject({
-        ok: -1,
-        es: e
-      });
-    }
-  });
-};
+module.exports = Mongo;

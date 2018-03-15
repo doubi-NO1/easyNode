@@ -1,6 +1,7 @@
 module.exports = [{
   type: 'get',
   '/queryA': (req, res) => {
+    console.log(this.mysql);
     res.writeHead('200', {
       'Content-Type': 'text/html'
     });

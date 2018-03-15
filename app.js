@@ -9,4 +9,4 @@ const APP = require('./core'),
     //启动服务
     let app = await APP(conf.dev, controllers);
     app.start();
-})()
+})();

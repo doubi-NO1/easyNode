@@ -2,10 +2,9 @@ const plugins = require('../plugin'),
   middleWares = require('../middleWare'),
   config = require('./base.config.js');
 
-module.exports = Object.assign({}, config, (async () => {
-  return {
+module.exports = Object.assign({}, config, {
     plugins: {
-      mysql: await new plugins.mysql({
+      mysql: new plugins.mysql({
         config: {
           connectionLimit: 10,
           host: '',
@@ -15,13 +14,15 @@ module.exports = Object.assign({}, config, (async () => {
           database: ''
         },
       }),
-      mongo: await plugins.mongo({
-        dbAddress: '47.94.207.219:27017',
-        dbName: 'test'
+      mongo: new plugins.mongo({
+        dbAddress: 'mongodb://47.94.207.219:27017',
+        dbName: 'test',
+        error(err){
+          console.log(err);
+        }
       })
     },
     middleWare: [
       
     ]
-  };
-})());
+});
