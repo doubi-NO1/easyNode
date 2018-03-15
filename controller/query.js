@@ -1,7 +1,6 @@
 module.exports = [{
   type: 'get',
-  '/queryA': (req, res) => {
-    console.log(this.mysql);
+  '/queryA': (app, req, res) => {
     res.writeHead('200', {
       'Content-Type': 'text/html'
     });
@@ -10,7 +9,7 @@ module.exports = [{
   }
 }, {
   type: 'post',
-  '/queryB': (req, res) => {
+  '/queryB': (app, req, res) => {
     res.writeHead('200', {
       'Content-Type': 'text/html'
     });

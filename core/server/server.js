@@ -81,15 +81,4 @@ class APP {
   }
 }
 
-module.exports = (config, interfaces) => {
-  return new Promise((resolve, reject) => {
-    try {
-      resolve(new APP(config, interfaces));
-    } catch (err) {
-      reject({
-        es: -1,
-        es: err
-      });
-    }
-  });
-};
+module.exports = APP;
