@@ -19,21 +19,31 @@ const is = require('./is');
  * @param {Object} 查询条件，可以是对象或数组 
  * @returns{string} 查询条件字符串
  */
-const createWhereText=(terms)=> {
-  let whereText = ' where (1=1) and ',
-    list = [];
-  if (is.Object(terms)) {
-    for (let k in terms) {
-      list.push(k + " = '" + terms[k] + "'");
+const createWhereText = (terms) => {
+    let whereText = ' where (1=1) and ',
+      list = [];
+    if (is.Object(terms)) {
+      for (let k in terms) {
+        list.push(k + " = '" + terms[k] + "'");
+      }
+    } else if (is.Array(terms)) {
+      terms.forEach((v) => {
+        list.push(v.field + " " + v.term + " " + "'" + v.value + "'");
+      });
     }
-  } else if (is.Array(terms)) {
-    terms.forEach((v) => {
-      list.push(v.field + " " + v.term + " " + "'" + v.value + "'");
-    });
+    whereText += list.join(' and ');
+    return whereText;
+  },
+
+  /**
+   * @description 生成分页查询条件
+   * @param 
+   * @return where条件字符串
+   */
+  createPageNationText = (terms) => {
+    const start = (terms.pageIndex - 1) * terms.pageSize;
+    return ' LIMIT ' + start + ' , ' + terms.pageSize + ' ';
   }
-  whereText += list.join(' and ');
-  return whereText;
-}
 
 /**
  * @description 构造函数，默认导出此函数
@@ -41,7 +51,7 @@ const createWhereText=(terms)=> {
  * @param {Object} 配置
  * @returns {Object} mysql pool 
  */
-class Mysql{
+class Mysql {
   constructor(config) {
     this.config = config;
     this.pool = mysql.createPool(config);
@@ -57,7 +67,7 @@ class Mysql{
     let self = this;
     return new Promise((resolve, reject) => {
       self.pool.getConnection((err, conn) => {
-        err ? reject(err) : (conn.query(sql, options, function (err, result, fields) {
+        err ? reject(err) : (conn.query(sql, options, (err, result, fields) => {
           conn.release();
           err ? reject({
             ec: -1,
@@ -152,6 +162,7 @@ class Mysql{
         }
         sqlText += ' from ' + options.tbName + ' ';
         sqlText += createWhereText(options.terms);
+        options.terms.pageIndex && options.terms.pageSize && (sqlText = createPageNationText(options.terms));
         resolve(await self.query(sqlText, options));
       } catch (e) {
         reject(e);
@@ -206,7 +217,7 @@ class Mysql{
  * @param {Object} connection 
  * @returns {Object} Transaction
  */
-class Transaction{
+class Transaction {
   constructor(conn) {
     if (!(this instanceof Transaction)) return new Transaction();
     this.sqlList = [];
