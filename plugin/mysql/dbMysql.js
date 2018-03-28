@@ -37,8 +37,9 @@ const createWhereText = (terms) => {
 
   /**
    * @description 生成分页查询条件
-   * @param 
-   * @return where条件字符串
+   * @param pageIndex 当前页
+   * @param pageSize 每页条数
+   * @return 分页条件字符串
    */
   createPageNationText = (terms) => {
     const start = (terms.pageIndex - 1) * terms.pageSize;
