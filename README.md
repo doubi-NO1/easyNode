@@ -19,7 +19,7 @@
 
 //post请求请求体处理
 module.exports=(req,res,next)=>{
-  if (req.method === 'POST') {
+  if(req.method === 'POST') {
     let data = '';
     req.on('data', (chunk) => {
       data += chunk;
