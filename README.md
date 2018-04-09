@@ -12,9 +12,9 @@
 ```
 
 ### 制作中间件
-&emsp;&emsp;中间件的思路借鉴了koa中间件的洋葱模型，每一个中间件都是一个方法，方法会接受3个参数，request、response和next，以body-parser中间件为例:
+中间件的思路借鉴了koa中间件的洋葱模型，每一个中间件都是一个方法，方法会接受3个参数，request、response和next，以body-parser中间件为例:
 
-&emsp;&emsp;创建一份body-parser.js文件
+创建一份body-parser.js文件
 ```javascript
 
 //post请求请求体处理
@@ -36,9 +36,9 @@ module.exports=(req,res,next)=>{
 ```
 
 ### 通过controller制作一个接口
-&emsp;&emsp;框架内置了一个简单的路由，通过路由，可以把请求映射到对应的controller，下面我们制作一个controller
+框架内置了一个简单的路由，通过路由，可以把请求映射到对应的controller，下面我们制作一个controller
 
-&emsp;&emsp;创建一份controller.js文件
+创建一份controller.js文件
 ```javascript
 //type是请求请求类型，如果不定义，就表示既可以支持post，也可以支持get
 module.exports = [{
@@ -74,9 +74,9 @@ module.exports = [{
 注意，路由是基于backbone路由改造而来的，具体路由策略可以参考backbone的官方文档
 
 ### 配置
-&emsp;&emsp;配置包含了服务启动时的端口号、所用到的中间件以及插件
+配置包含了服务启动时的端口号、所用到的中间件以及插件
 
-&emsp;&emsp;创建一份config.js文件
+创建一份config.js文件
 ```javascript
 const bodyParser=require('./body-parser.js');
 
@@ -88,7 +88,7 @@ module.exports = {
 ```
 #### 运行
 
-&emsp;&emsp;创建一份app.js文件
+创建一份app.js文件
 ``` javascript
   const { APP } = require('easyNode'),
     controllers = require('./controller.js'),
