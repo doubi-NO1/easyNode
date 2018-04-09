@@ -90,7 +90,7 @@ module.exports = {
 
 创建一份app.js文件
 ``` javascript
-  const { APP } = require('easyNode'),
+  const { APP } = require('Simple-Easy-Node'),
     controllers = require('./controller.js'),
     conf = require('./config.js');
 
