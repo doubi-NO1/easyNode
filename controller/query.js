@@ -17,7 +17,7 @@ module.exports = [{
     res.end();
   }
 }, {
-  '/queryC/:id/:name': (req, res, parms) => {
+  '/queryC/:id/:name': (app,req, res, parms) => {
     res.writeHead('200', {
       'Content-Type': 'application/json'
     });

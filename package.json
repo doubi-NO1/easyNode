@@ -1,5 +1,5 @@
 {
-  "name": "easyNode",
+  "name": "simple-easy-node",
   "version": "1.0.0",
   "description": "第一次学习node，尝试写一个简单易用的框架",
   "main": "index.js",

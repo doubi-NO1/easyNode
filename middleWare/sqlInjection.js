@@ -3,9 +3,9 @@
  * @author 巴神
  */
 
-
 const url = require('url');
 
+//因为node-mysql本身有escape防止sql注入，所以这里只做简单拦截
 const keyWords = [
   "select",
   "insert",
@@ -34,6 +34,9 @@ module.exports = (req, res) => {
       found = true;
       break;
     }
+  }
+  if(req.method==='POST'){
+    //JSON.stringify(req.b);
   }
   found && res.writeHead(401, {
     'Content-Type': 'text/plain'

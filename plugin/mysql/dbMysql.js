@@ -19,7 +19,7 @@ const is = require('./is');
  * @param {Object} 查询条件，可以是对象或数组 
  * @returns{string} 查询条件字符串
  */
-const createWhereText = (terms) => {
+const createWhereText = (pool,terms) => {
     let whereText = ' where (1=1) and ',
       list = [];
     if (is.Object(terms)) {
@@ -28,7 +28,8 @@ const createWhereText = (terms) => {
       }
     } else if (is.Array(terms)) {
       terms.forEach((v) => {
-        list.push(v.field + " " + v.term + " " + "'" + v.value + "'");
+        //https://github.com/mysqljs/mysql#escaping-query-values
+        list.push(v.field + " " + v.term + " " + "'" + pool.escape(v.value) + "'");
       });
     }
     whereText += list.join(' and ');
@@ -138,7 +139,7 @@ class Mysql {
         for (let k in data) {
           fields.push(k + " =  '" + data[k] + "' ");
         }
-        sqlText += fields.join(' , ') + createWhereText(options.terms);
+        sqlText += fields.join(' , ') + createWhereText(this.pool,options.terms);
         resolve(await self.query(sqlText, options));
       } catch (e) {
         reject(e);

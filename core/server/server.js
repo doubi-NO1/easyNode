@@ -30,6 +30,9 @@ class APP {
       //await this.middleWare(req,res);
       this.router.handle(this,req, res);
     });
+    this.server.on('clientError', (err, socket) => {
+      socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
+    });
   }
   /**
    * @description 启动服务
