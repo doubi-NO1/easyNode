@@ -87,7 +87,7 @@ module.exports = {
   plugins:[]//插件
 }
 ```
-#### 运行
+### 运行
 
 创建一份app.js文件
 ``` javascript
@@ -104,8 +104,8 @@ module.exports = {
   node app.js
 ```
 
-### 进阶使用
-#### 插件
+## 进阶使用
+### 插件
 为了提高框架的扩展性，因此提供了插件扩展机制，我们可以像这样制作一个插件，下面以类型判断插件为例
 
 创建一份is.js文件
@@ -134,7 +134,7 @@ module.exports = {
 ```
 为了丰富框架能力，我也开发了几个常用插件，全部放在了plugin目录下
 
-#### 协议
+### 协议
 [MIT](https://github.com/doubi-NO1/easyNode/blob/master/LICENSE)
 
 
