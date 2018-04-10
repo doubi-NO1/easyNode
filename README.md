@@ -12,10 +12,11 @@
 ```
 
 ### 制作中间件
-中间件的思路借鉴了koa中间件的洋葱模型，每一个中间件都是一个方法，方法会接受3个参数，request、response和next，以body-parser中间件为例:
+中间件的思路借鉴了koa中间件的洋葱模型，每一个中间件都是一个方法，方法会接受3个参数，request、response和next，以body-parser中间件为例:
 
 创建一份body-parser.js文件
 ```javascript
+const querystring = require('querystring');
 
 //post请求请求体处理
 module.exports=(req,res,next)=>{
@@ -102,4 +103,39 @@ module.exports = {
 ```bash
   node app.js
 ```
+
+### 进阶使用
+#### 插件
+为了提高框架的扩展性，因此提供了插件扩展机制，我们可以像这样制作一个插件，下面以类型判断插件为例
+
+创建一份is.js文件
+```javascript
+let is = {
+  types: ["Array", "Boolean", "Date", "Number", "Object", "RegExp", "String","Function"]
+};
+for (let i = 0,c; c = is.types[i++];) {
+  is[c] = ((type) => {
+    return (obj) => {
+      return Object.prototype.toString.call(obj) == "[object " + type + "]";
+    };
+  })(c);
+}
+module.exports = is;
+```
+
+在配置中添加开发好的插件
+```javascript
+//config.js
+const is = require('./is.js');
+module.exports = {
+  port: 8080,//端口号,
+  plugins:[is]//插件
+}
+```
+为了提高框架的可用性，我也开发了几个常用插件，全部放在了plugin目录下
+
+#### 协议
+[MIT](https://github.com/doubi-NO1/easyNode/blob/master/LICENSE)
+
+
 框架还在建设中，喜欢的可以持续关注一波
