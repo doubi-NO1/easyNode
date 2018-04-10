@@ -12,7 +12,7 @@
 ```
 
 ### 制作中间件
-中间件的思路借鉴了koa中间件的洋葱模型，每一个中间件都是一个方法，方法会接受3个参数，request、response和next，以body-parser中间件为例:
+中间件的思路借鉴了koa中间件的洋葱模型，每一个中间件都是一个方法，方法会接受3个参数，request、response和next，以body-parser中间件为例:
 
 创建一份body-parser.js文件
 ```javascript
@@ -20,7 +20,7 @@ const querystring = require('querystring');
 
 //post请求请求体处理
 module.exports=(req,res,next)=>{
-  if(req.method === 'POST') {
+  if(req.method === 'POST') {
     let data = '';
     req.on('data', (chunk) => {
       data += chunk;
@@ -72,7 +72,7 @@ module.exports = [{
   }
 }];
 ```
-注意，路由是基于backbone路由改造而来的，具体路由策略可以参考backbone的官方文档
+注意，路由是基于backbone路由改造而来的，具体路由策略可以参考backbone的官方文档
 
 ### 配置
 配置包含了服务启动时的端口号、所用到的中间件以及插件
@@ -110,7 +110,7 @@ module.exports = {
 
 创建一份is.js文件
 ```javascript
-let is = {
+let is = {
   types: ["Array", "Boolean", "Date", "Number", "Object", "RegExp", "String","Function"]
 };
 for (let i = 0,c; c = is.types[i++];) {
@@ -132,7 +132,7 @@ module.exports = {
   plugins:[is]//插件
 }
 ```
-为了提高框架的可用性，我也开发了几个常用插件，全部放在了plugin目录下
+为了丰富框架能力，我也开发了几个常用插件，全部放在了plugin目录下
 
 #### 协议
 [MIT](https://github.com/doubi-NO1/easyNode/blob/master/LICENSE)
