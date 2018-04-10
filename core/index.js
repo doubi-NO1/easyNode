@@ -1,3 +1,7 @@
-const APP = require('./server');
+const APP = require('./server'),
+Controller = require('./controller');
 
-module.exports = APP;
+module.exports = {
+  APP,
+  Controller
+};

@@ -1,7 +1,7 @@
 /**
  * 服务端入口
  */
-const APP = require('./core'),
+const { APP } = require('./core'),
     controllers = require('./controller'),
     conf = require('./conf');
 

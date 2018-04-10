@@ -35,7 +35,7 @@ class Mongo{
     } else {
       config = Object.assign({}, _defaultConfig, config);
       MongoClient.connect(config.dbAddress, config, (err, client) => {
-        err ? config.error(err) : (this.db = client.db(config.dbName), config.success(this));
+        err ? config.error(err) : ((this.db = client.db(config.dbName), config.success && config.success(this)));
       });
     }
   }
