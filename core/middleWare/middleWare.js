@@ -5,15 +5,14 @@
  */
 
 const decorator = (middleWare, handle) => {
-  const next = arguments.callee;
   return (...args) => {
     return new Promise(async (resolve, reject) => {
       try {
-        handle(...args, next);
-        middleWare(...args, next);
+        handle(...args);
+        middleWare(...args);
         resolve(...args);
       } catch (e) {
-        reject(e);
+        reject(e);  
       }
     });
   };

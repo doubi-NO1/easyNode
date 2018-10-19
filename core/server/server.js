@@ -21,13 +21,13 @@ class APP {
   constructor(config, controllers) {
     this.config = Object.assign({}, {
       port:8080,
-      middleWare: []
+      middleWare: []  
     }, config);
     plugin(this, this.config.plugins);
     this.middleWare = middleWare(this.config.middleWare);
     this.router = new Route(controllers, this.config.defaultAction);
     this.server = http.createServer(async (req, res) => {
-      //await this.middleWare(req,res);
+      await this.middleWare(req,res);
       this.router.handle(this,req, res);
     });
     this.server.on('clientError', (err, socket) => {

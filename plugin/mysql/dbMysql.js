@@ -7,8 +7,8 @@
 
 'use strict'
 
-const mysql = require("mysql");
-const is = require('./is');
+const mysql = require('mysql');
+const is = require('./lib/is');
 
 //参考资料:https://github.com/mysqljs/mysql
 

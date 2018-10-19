@@ -35,7 +35,7 @@ module.exports = (req, res) => {
       break;
     }
   }
-  if(req.method==='POST'){
+  if (req.method === 'POST') {
     //JSON.stringify(req.b);
   }
   found && res.writeHead(401, {
