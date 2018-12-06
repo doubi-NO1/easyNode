@@ -7,15 +7,15 @@ module.exports = Object.assign({}, config, {
       mysql: new plugins.mysql({
         config: {
           connectionLimit: 10,
-          host: '',
+          host: '127.0.0.1',
           port: '3306',
           user: 'root',
-          password: '',
-          database: ''
+          password: 'ycdn8Tm5Nj',
+          database: 'test'
         },
       }),
       mongo: new plugins.mongo({
-        dbAddress: 'mongodb://47.94.207.219:27017',
+        dbAddress: 'mongodb://127.0.0.1:27017',
         dbName: 'test',
         error(err){
           console.log(err);

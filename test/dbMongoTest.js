@@ -4,9 +4,9 @@ let mocha = require('mocha');
 let runtime = require('babel-plugin-transform-runtime');
 let polyfill = require('babel-polyfill');
 
-let address = 'mongodb://47.94.207.219:27017';
+let address = 'mongodb://127.0.0.1:27017';
 let dbName = 'test'
-let tbName = 'tb_test';
+let table = 'tb_test';
 let allLength = 0;
 let searchTerms = "";
 
@@ -59,7 +59,7 @@ module.exports = async () => {
             dbName:dbName
           });
           let data = await mongo1.insert({
-            tbName: tbName,
+            table: table,
             data: [{
               "name": "liwei",
               "age": "12",
@@ -79,7 +79,7 @@ module.exports = async () => {
               dbName: dbName
             });
             let data = await mongo1.insert({
-              tbName: tbName,
+              table: table,
               data: []
             });
           } catch (e) {
@@ -94,7 +94,7 @@ module.exports = async () => {
               dbName: dbName
             });
             let data = await mongo1.insert({
-              tbName: tbName
+              table: table
             });
           } catch (e) {
             let ok = e.ok;
@@ -109,7 +109,7 @@ module.exports = async () => {
             dbName: dbName
           });
           let data = await mongo1.find({
-            'tbName': tbName
+            'table': table
           });
           let list = data.list;
           list.should.not.be.empty;
@@ -121,7 +121,7 @@ module.exports = async () => {
               dbName: dbName
             });
             let data = await mongo1.find({
-              'tbName': tbName
+              'table': table
             });
           } catch (e) {
             console.log(e);
@@ -135,7 +135,7 @@ module.exports = async () => {
             dbName: dbName
           });
           let data = await mongo1.findOne({
-            'tbName': tbName,
+            'table': table,
             'terms': {
               'name': '张三'
             }
@@ -151,7 +151,7 @@ module.exports = async () => {
             dbName: dbName
           });
           let data = await mongo1.update({
-            'tbName': tbName,
+            'table': table,
             'terms': {
               'name': 'liwei'
             },
@@ -168,7 +168,7 @@ module.exports = async () => {
             dbName: dbName
           });
           let data = await mongo1.update({
-            'tbName': tbName,
+            'table': table,
             'terms': {},
             'data': {
               'name': 'lili'
@@ -184,7 +184,7 @@ module.exports = async () => {
               dbName: dbName
             });
             let data = await mongo1.update({
-              'tbName': tbName,
+              'table': table,
               'terms': {},
               'data': {}
             });
@@ -202,7 +202,7 @@ module.exports = async () => {
               dbName: dbName
             });
             let data = await mongo1.update({
-              'tbName': tbName,
+              'table': table,
               'data': {}
             });
           } catch (e) {
@@ -217,7 +217,7 @@ module.exports = async () => {
               dbName: dbName
             });
             let data = await mongo1.update({
-              'tbName': tbName,
+              'table': table,
               'terms': {}
             });
           } catch (e) {
@@ -233,7 +233,7 @@ module.exports = async () => {
             dbName: dbName
           });
           let data = await mongo1.remove({
-            'tbName': tbName,
+            'table': table,
             'terms': {
               'name': 'lili',
               'age': '12'
@@ -248,7 +248,7 @@ module.exports = async () => {
             dbName: dbName
           });
           let data = await mongo1.remove({
-            'tbName': tbName,
+            'table': table,
             'terms': {}
           });
           let ok = data.ok;
@@ -260,7 +260,7 @@ module.exports = async () => {
             dbName: dbName
           });
           let data = await mongo1.remove({
-            'tbName': tbName
+            'table': table
           });
           let ok = data.ok;
           ok.should.eql(1);
