@@ -155,21 +155,35 @@ class Mysql {
         let self = this;
         return new Promise(async (resolve, reject) => {
             try {
-                let sqlText = 'select ', whereText = createWhereText(self.pool, options.terms);
+                let sqlText = 'select ',
+                    whereText = createWhereText(self.pool, options.terms);
+                let totalSqlText = 'select count(*) as total from ' + options.table + ' ' + whereText;
+                let transaction = await self.sqlTransaction();
                 if (is.Array(options.fields) && options.fields.length) {
                     sqlText += ' ' + options.fields.join(' , ') + ' ';
                 } else {
                     sqlText += ' * ';
                 }
                 sqlText += ' from ' + options.table + ' ' + whereText;
-                if(options.pageIndex && options.pageSize){
-                    let totalSqlText = 'select count(*) as total from '+options.table + ' ' + whereText;
-                    var total = await self.query(totalSqlText,options);
-                    total = total.result[0].total;
-                    sqlText += createPageNationText(options.pageIndex,options.pageSize)
+                if (options.pageIndex && options.pageSize) {
+                    sqlText += createPageNationText(options.pageIndex, options.pageSize)
                 }
-                let result = await self.query(sqlText, options);
-                options.pageIndex && options.pageSize && Object.assign(result, { pageIndex: options.pageIndex, total})
+                transaction.add(sqlText).add(totalSqlText);
+                let result = await transaction.exec();
+                const {
+                    ec,
+                    es
+                } = result;
+                let res = result.res.reduce((a, b) => a.concat(b), [])
+                result = {
+                    result: res[0],
+                    total: res[1].total,
+                    ec,
+                    es
+                }
+                options.pageIndex && options.pageSize && Object.assign(result, {
+                    pageIndex: options.pageIndex
+                })
                 resolve(result)
             } catch (e) {
                 reject(e);
@@ -237,6 +251,7 @@ class Transaction {
      */
     add(sqlText) {
         this.sqlList.push(sqlText);
+        return this
     }
     /**
      * @description 执行事物
@@ -246,10 +261,13 @@ class Transaction {
     exec() {
         let self = this;
         return new Promise((resolve, reject) => {
+            let res = [];
             self.connection.beginTransaction(async () => {
                 try {
                     for (let i = 0; i <= self.sqlList.length; i++) {
-                        i < self.sqlList.length ? await self.query(self.sqlList[i]) : resolve(await self.commit());
+                        i < self.sqlList.length ? res.push(await self.query(self.sqlList[i])) : resolve(Object.assign(await self.commit(), {
+                            res
+                        }));
                     }
                 } catch (e) {
                     reject(e);
