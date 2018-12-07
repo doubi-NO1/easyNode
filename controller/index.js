@@ -1,5 +1,5 @@
 let query = require('./query');
 
-module.exports = [
-  ...query
-];
+module.exports = {
+    ...query
+};

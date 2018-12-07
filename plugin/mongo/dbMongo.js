@@ -51,7 +51,7 @@ class Mongo{
     return new Promise((resolve, reject) => {
       try {
         let find = isOne ? 'findOne' : 'find';
-        self.db.collection(options.tbName)[find](options.terms || {}, function (err, docs) {
+        self.db.collection(options.tbName)[find](options.terms || {},  (err, docs) => {
           err ? reject({
             ok: -1,
             es: err

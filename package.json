@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "jsdoc-to-markdown": "^3.0.0",
+    "log4js": "^3.0.6",
     "mocha": "^3.5.0",
     "mongodb": "^3.0.3",
     "mysql": "^2.14.1",
