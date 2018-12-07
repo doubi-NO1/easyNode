@@ -2,7 +2,8 @@
  * mysql封装
  * @author 巴神
  * 2017/9/10
- * 暂时没有实现分页查询部分,以后补上
+ * 2818/12/7更新
+ * 支持分页查询，使用escape防止sql注入，调整api tbName为table
  */
 
 'use strict'
