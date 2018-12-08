@@ -51,7 +51,7 @@ class Mongo{
     return new Promise((resolve, reject) => {
       try {
         let find = isOne ? 'findOne' : 'find';
-        self.db.collection(options.tbName)[find](options.terms || {},  (err, docs) => {
+        self.db.collection(options.table)[find](options.terms || {},  (err, docs) => {
           err ? reject({
             ok: -1,
             es: err
@@ -95,7 +95,7 @@ class Mongo{
     let self = this;
     return new Promise((resolve, reject) => {
       try {
-        self.db.collection(options.tbName).insert(options.data, options || {}, (err, docs) => {
+        self.db.collection(options.table).insert(options.data, options || {}, (err, docs) => {
           err ? reject({
             ok: -1,
             es: err
@@ -119,7 +119,7 @@ class Mongo{
     let self = this;
     return new Promise((resolve, reject) => {
       try {
-        self.db.collection(options.tbName).updateMany(options.terms, {
+        self.db.collection(options.table).updateMany(options.terms, {
           $set: options.data
         }, (err, docs) => {
           err ? reject({
@@ -148,7 +148,7 @@ class Mongo{
         options = Object.assign({
           justOne: false
         }, options);
-        self.db.collection(options.tbName).remove(options.terms, (err, docs) => {
+        self.db.collection(options.table).remove(options.terms, (err, docs) => {
           err ? reject({
             ok: -1,
             es: err
@@ -164,4 +164,15 @@ class Mongo{
   }
 }
 
-module.exports = Mongo;
+module.exports = (config)=>{
+    return new Promise((resolve,reject)=>{
+        new Mongo(Object.assign(config,{
+            success(mongo){
+                resolve(mongo);
+            },
+            error(err){
+                reject(err)
+            }
+        }))
+    })
+};

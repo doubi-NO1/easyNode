@@ -12,7 +12,6 @@ let http = require('http'),
     middleWare = require('../middleWare');
 
     log4j.configure(log4jconf);
-    //log4j.getLogger('console')
     global.logger = log4j.getLogger('logInfo')
     console.log = logger.info.bind(logger); 
 /**
