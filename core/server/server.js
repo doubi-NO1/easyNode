@@ -29,7 +29,7 @@ class APP {
         }, config);
         plugin(this, this.config.plugins);
         this.middleWare = middleWare(this.config.middleWare);
-        this.router = new Route(routers);
+        this.router = new Route(routers, this);
         this.server = http.createServer(async (req, res) => {
             await this.middleWare(req, res);
             const body = await this.router.handle(this, req, res);

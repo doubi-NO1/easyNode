@@ -14,7 +14,7 @@ module.exports = Object.assign({}, config, {
           database: 'test'
         },
       }),
-      mongo: new plugins.mongo({
+      mongo: plugins.mongo({
         dbAddress: 'mongodb://127.0.0.1:27017',
         dbName: 'test',
         error(err){
