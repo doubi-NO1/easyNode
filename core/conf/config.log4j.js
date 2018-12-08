@@ -1,6 +1,11 @@
+
+const os = require('os');
+const _type = os.type();
+const _path = _type === 'Windows_NT' ? './' : '/tmp/'
+
 const base = {
     appenders: {
-        accessLogs: { type: 'Datefile', filename: '/tmp/log/access.log', pattern: '_yyyyMMdd.log', alwaysIncludePattern: true, category: 'access' },
+        accessLogs: { type: 'Datefile', filename: `${_path}log/access.log`, pattern: '_yyyyMMdd.log', alwaysIncludePattern: true, category: 'access' },
         console: { type: 'console', category: 'console'}
     },
     categories: {
