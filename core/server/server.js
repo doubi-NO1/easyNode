@@ -10,10 +10,10 @@ let http = require('http'),
     plugin = require('../plugin'),
     Route = require('../route'),
     middleWare = require('../middleWare');
-    
+
     log4j.configure(log4jconf);
     global.console = log4j.getLogger('console');
-    global.setLog = log4j.getLogger('logInfo'); 
+    global.log = log4j.getLogger('logInfo'); 
 /**
  * 
  * @description 创建一个http实例
