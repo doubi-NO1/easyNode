@@ -1,4 +1,4 @@
-let dbMongo = require('../core/db/dbMongo.js');
+let dbMongo = require('../plugin/db/dbMongo.js');
 let should = require('should');
 let mocha = require('mocha');
 let runtime = require('babel-plugin-transform-runtime');

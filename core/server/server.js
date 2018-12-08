@@ -12,8 +12,8 @@ let http = require('http'),
     middleWare = require('../middleWare');
 
     log4j.configure(log4jconf);
-    global.console = log4j.getLogger('console');
-    global.log = log4j.getLogger('logInfo'); 
+    //log4j.getLogger('console')
+    global.logger = log4j.getLogger('logInfo')
 /**
  * 
  * @description 创建一个http实例
