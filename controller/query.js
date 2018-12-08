@@ -15,6 +15,7 @@ let queryB = (app, req, res) => {
 }
 
 let queryC = (app, req, res, parms) => {
+    app.logger.info(parms);
     res.writeHead('200', {
         'Content-Type': 'application/json'
     });

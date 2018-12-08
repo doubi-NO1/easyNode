@@ -31,7 +31,6 @@ const getRegExp = (route) => {
 
 /**
  * @param {Array} routes 路由
- * @param {Function} 未匹配到路由时的回调函数
  */
 class Route {
     constructor(routes) {

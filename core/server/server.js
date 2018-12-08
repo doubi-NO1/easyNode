@@ -5,11 +5,15 @@
  * @author 巴神
  */
 let http = require('http'),
+    log4j = require('log4js'),
+    log4jconf = require('../conf/config.log4j'),
     plugin = require('../plugin'),
     Route = require('../route'),
     middleWare = require('../middleWare');
-
-
+    
+    log4j.configure(log4jconf);
+    global.console = log4j.getLogger('console');
+    global.setLog = log4j.getLogger('logInfo'); 
 /**
  * 
  * @description 创建一个http实例
@@ -25,7 +29,7 @@ class APP {
         }, config);
         plugin(this, this.config.plugins);
         this.middleWare = middleWare(this.config.middleWare);
-        this.router = new Route(routers, this.config.defaultAction);
+        this.router = new Route(routers);
         this.server = http.createServer(async (req, res) => {
             await this.middleWare(req, res);
             const body = await this.router.handle(this, req, res);
