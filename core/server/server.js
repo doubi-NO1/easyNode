@@ -14,6 +14,7 @@ let http = require('http'),
     log4j.configure(log4jconf);
     //log4j.getLogger('console')
     global.logger = log4j.getLogger('logInfo')
+    console.log = logger.info.bind(logger); 
 /**
  * 
  * @description 创建一个http实例
